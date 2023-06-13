@@ -13,13 +13,13 @@ const {
 } = require("./users/model.js");
 
 // POST /api/users
-server.post("/api/users", (req, res) => {
+app.post("/api/users", (req, res) => {
     const { name, bio } = req.body;
 
     if (!name || !bio) {
         return res
             .status(400)
-            .json({ message: "Lütfen kullanıcı için bir name ve bio sağlayın" });
+            .json({ message: "Lütfen bir isim ve biyografi sağlayın." });
     }
 
     insert({ name, bio })
@@ -29,23 +29,23 @@ server.post("/api/users", (req, res) => {
         .catch((error) => {
             res
                 .status(500)
-                .json({ message: "Veritabanına kaydedilirken bir hata oluştu" });
+                .json({ message: "Veritabanına kaydedilirken bir hata oluştu." });
         });
 });
 
 // GET /api/users
-server.get("/api/users", (req, res) => {
+app.get("/api/users", (req, res) => {
     find()
         .then((users) => {
             res.json(users);
         })
         .catch((error) => {
-            res.status(500).json({ message: "Kullanıcı bilgileri alınamadı" });
+            res.status(500).json({ message: "Kullanıcı bilgileri alınamadı." });
         });
 });
 
 // GET /api/users/:id
-server.get("/api/users/:id", (req, res) => {
+app.get("/api/users/:id", (req, res) => {
     const id = req.params.id;
 
     findById(id)
@@ -53,18 +53,18 @@ server.get("/api/users/:id", (req, res) => {
             if (!user) {
                 return res
                     .status(404)
-                    .json({ message: "Belirtilen ID'li kullanıcı bulunamadı" });
+                    .json({ message: "Belirtilen ID'ye sahip kullanıcı bulunamadı." });
             }
 
             res.json(user);
         })
         .catch((error) => {
-            res.status(500).json({ message: "Kullanıcı bilgisi alınamadı" });
+            res.status(500).json({ message: "Kullanıcı bilgisi alınamadı." });
         });
 });
 
 // DELETE /api/users/:id
-server.delete("/api/users/:id", (req, res) => {
+app.delete("/api/users/:id", (req, res) => {
     const id = req.params.id;
 
     remove(id)
@@ -72,25 +72,25 @@ server.delete("/api/users/:id", (req, res) => {
             if (!user) {
                 return res
                     .status(404)
-                    .json({ message: "Belirtilen ID'li kullanıcı bulunamadı" });
+                    .json({ message: "Belirtilen ID'ye sahip kullanıcı bulunamadı." });
             }
 
             res.json(user);
         })
         .catch((error) => {
-            res.status(500).json({ message: "Kullanıcı silinemedi" });
+            res.status(500).json({ message: "Kullanıcı silinemedi." });
         });
 });
 
 // PUT /api/users/:id
-server.put("/api/users/:id", (req, res) => {
+app.put("/api/users/:id", (req, res) => {
     const id = req.params.id;
     const { name, bio } = req.body;
 
     if (!name || !bio) {
         return res
             .status(400)
-            .json({ message: "Lütfen kullanıcı için name ve bio sağlayın" });
+            .json({ message: "Lütfen bir isim ve biyografi sağlayın." });
     }
 
     update(id, { name, bio })
@@ -98,14 +98,14 @@ server.put("/api/users/:id", (req, res) => {
             if (!updatedUser) {
                 return res
                     .status(404)
-                    .json({ message: "Belirtilen ID'li kullanıcı bulunamadı" });
+                    .json({ message: "Belirtilen ID'ye sahip kullanıcı bulunamadı." });
             }
 
             res.json(updatedUser);
         })
         .catch((error) => {
-            res.status(500).json({ message: "Kullanıcı bilgileri güncellenemedi" });
+            res.status(500).json({ message: "Kullanıcı bilgileri güncellenemedi." });
         });
 });
 
-module.exports = server;
+module.exports = app;
